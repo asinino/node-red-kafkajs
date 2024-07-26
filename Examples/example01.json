@@ -1,0 +1,234 @@
+[
+    {
+        "id": "e04f8cab16bbac28",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7dc1ba73c2b0ee11",
+        "type": "inject",
+        "z": "e04f8cab16bbac28",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "key",
+                "v": "23",
+                "vt": "num"
+            },
+            {
+                "p": "headers",
+                "v": "{ \"h1\": \"1\", \"h2\": \"34\" }",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "test",
+        "payload": "{ \"val\": 12345 }",
+        "payloadType": "json",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "56f6f1ee4ea46e2e"
+            ]
+        ]
+    },
+    {
+        "id": "56f6f1ee4ea46e2e",
+        "type": "node-red-kafkajs-producer",
+        "z": "e04f8cab16bbac28",
+        "name": "",
+        "broker": "979d5f41d11cf182",
+        "topic": "",
+        "keytype": "int32be",
+        "valuetype": "json",
+        "advancedoptions": true,
+        "acknowledge": "leader",
+        "partition": "",
+        "headeritems": {},
+        "key": "",
+        "responsetimeout": 30000,
+        "transactiontimeout": 60000,
+        "metadatamaxage": 300000,
+        "x": 390,
+        "y": 80,
+        "wires": [
+            [
+                "b13631aa15fb04ae"
+            ],
+            [
+                "dd3993c4aa85508b"
+            ]
+        ]
+    },
+    {
+        "id": "b13631aa15fb04ae",
+        "type": "debug",
+        "z": "e04f8cab16bbac28",
+        "name": "success",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "dd3993c4aa85508b",
+        "type": "debug",
+        "z": "e04f8cab16bbac28",
+        "name": "error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "68780bfcab843afd",
+        "type": "debug",
+        "z": "e04f8cab16bbac28",
+        "name": "received",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "cce50df80be4a0aa",
+        "type": "debug",
+        "z": "e04f8cab16bbac28",
+        "name": "subscribed",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "2c22ccc1340de4fc",
+        "type": "node-red-kafkajs-consumer",
+        "z": "e04f8cab16bbac28",
+        "name": "",
+        "broker": "979d5f41d11cf182",
+        "groupid": "",
+        "topic": "test",
+        "keytype": "int32be",
+        "valuetype": "json",
+        "advancedoptions": false,
+        "autocommitinterval": 5000,
+        "autocommitthreshold": 100,
+        "sessiontimeout": 30000,
+        "rebalancetimeout": 60000,
+        "heartbeatinterval": 3000,
+        "metadatamaxage": 300000,
+        "maxbytesperpartition": 1048576,
+        "minbytes": 1,
+        "maxbytes": 10485760,
+        "maxwaittimeinms": 5000,
+        "frombeginning": false,
+        "x": 140,
+        "y": 180,
+        "wires": [
+            [
+                "68780bfcab843afd"
+            ],
+            [
+                "cce50df80be4a0aa"
+            ]
+        ]
+    },
+    {
+        "id": "43fd67e6e9affb3c",
+        "type": "catch",
+        "z": "e04f8cab16bbac28",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "e62c108211cd4ba4"
+            ]
+        ]
+    },
+    {
+        "id": "e62c108211cd4ba4",
+        "type": "debug",
+        "z": "e04f8cab16bbac28",
+        "name": "FlowError",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "979d5f41d11cf182",
+        "type": "node-red-kafkajs-broker",
+        "z": "e04f8cab16bbac28",
+        "name": "kafka (dev01)",
+        "brokers": "kafka.dev01.example.com:9092",
+        "clientid": "Po-1234",
+        "connectiontimeout": "3000",
+        "requesttimeout": "25000",
+        "loglevel": "error",
+        "auth": "none",
+        "tlscacert": "",
+        "tlsclientcert": "",
+        "tlsprivatekey": "",
+        "tlspassphrase": "",
+        "saslmechanism": "plain",
+        "saslssl": true,
+        "advancedretry": false,
+        "maxretrytime": "30000",
+        "initialretrytime": "300",
+        "factor": "0.2",
+        "multiplier": "2",
+        "retries": "5"
+    }
+]
