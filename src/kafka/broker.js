@@ -46,11 +46,12 @@ module.exports = function (RED) {
     }
 
     if (config.auth == 'tls') {
+      this.options.ssl = {};
       Object.assign(this.options.ssl, {
-        ca: [fs.readFileSync(config.tlscacert, 'utf-8')],
-        cert: fs.readFileSync(config.tlsclientcert, 'utf-8'),
-        key: fs.readFileSync(config.tlsprivatekey, 'utf-8'),
-        passphrase: config.tlspassphrase,
+        ca: config.tlscacert? fs.readFileSync(config.tlscacert, 'utf-8') : undefined,
+        cert: config.tlsclientcert? fs.readFileSync(config.tlsclientcert, 'utf-8') : undefined,
+        key: config.tlsprivatekey? fs.readFileSync(config.tlsprivatekey, 'utf-8') : undefined,
+        passphrase: config.tlspassphrase?? undefined
       });
     } else if (config.auth == 'sasl') {
       this.options.ssl = config.saslssl;
