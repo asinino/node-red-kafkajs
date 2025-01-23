@@ -19,7 +19,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack": "npm pack --pack-destination tmp/"
+    "pack": "npm pack --pack-destination tmp/",
+    "start": "node node_modules/node-red/red.js -v -u . -s node-red-default-settings.js",
+    "debug": "node --nolazy node_modules/node-red/red.js -v -u ./debug"
   },
   "node-red": {
     "version": ">=4.0.0",
@@ -33,7 +35,8 @@
     "kafkajs": "^2.2.4"
   },
   "devDependencies": {
-    "@types/node-red": "^1.3.5"
+    "@types/node-red": "^1.3.5",
+    "node-red": "4.0.8"
   },
   "repository": {
     "type": "git",

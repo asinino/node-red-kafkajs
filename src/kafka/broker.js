@@ -20,11 +20,18 @@ module.exports = function (RED) {
     debug: logLevel.DEBUG,
   };
 
-  exports.KafkajsBrokerNode = function(config) {
+  function KafkajsBrokerNode(config) {
     RED.nodes.createNode(this, config);
 
+    let node = this;
+    let options = new Object();
+
+    // if (node.credentials && !node.credentials.accessToken && config.apiKey) {
+    //   RED.nodes.addCredentials(node.id, { accessToken: config.apiKey });
+    // }
+
     /** @type {KafkaConfig} */
-    this.options = {
+    options = {
       brokers: config.brokers.replace(' ', '').split(','),
       clientId: config.clientid,
       logLevel: dictLogLevel[config.loglevel],
@@ -36,7 +43,8 @@ module.exports = function (RED) {
     };
 
     if (config.advancedretry) {
-      Object.assign(this.options.retry, {
+      options.retry = options.retry || {};
+      Object.assign(options.retry, {
         maxRetryTime: parseInt(config.maxretrytime),
         initialRetryTime: parseInt(config.initialretrytime),
         factor: parseFloat(config.factor),
@@ -46,26 +54,33 @@ module.exports = function (RED) {
     }
 
     if (config.auth == 'tls') {
-      this.options.ssl = {};
-      Object.assign(this.options.ssl, {
+      options.ssl = options.ssl || {};
+      Object.assign(options.ssl, {
         ca: config.tlscacert? fs.readFileSync(config.tlscacert, 'utf-8') : undefined,
         cert: config.tlsclientcert? fs.readFileSync(config.tlsclientcert, 'utf-8') : undefined,
         key: config.tlsprivatekey? fs.readFileSync(config.tlsprivatekey, 'utf-8') : undefined,
         passphrase: config.tlspassphrase?? undefined
       });
     } else if (config.auth == 'sasl') {
-      this.options.ssl = config.saslssl;
+      options.ssl = config.saslssl ? { rejectUnauthorized: !config.saslselfsign } : false;
 
-      Object.assign(this.options.sasl, {
+      options.sasl = options.sasl || {};
+      Object.assign(options.sasl, {
         mechanism: config.saslmechanism || 'plain',
-        username: this.credentials.saslusername,
-        password: this.credentials.saslpassword,
+        username: node.credentials.saslusername,
+        password: node.credentials.saslpassword,
       });
     }
 
+    node.options = options;
     /** @type {Kafka} */
-    this.server = new Kafka(this.options);
+    node.server = new Kafka(node.options);
   }
 
-  RED.nodes.registerType('node-red-kafkajs-broker', exports.KafkajsBrokerNode);
+  RED.nodes.registerType('node-red-kafkajs-broker', KafkajsBrokerNode, {
+    credentials: {
+      saslusername: {type:"text"},
+      saslpassword: {type:"password"}
+    }
+  });
 };

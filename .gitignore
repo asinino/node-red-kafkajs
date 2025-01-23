@@ -40,3 +40,6 @@ Thumbs.db
 # Draw.io temp files
 .$*.drawio.bkp
 .$*.drawio.dtmp
+
+# Debug files
+debug
