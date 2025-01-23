@@ -20,7 +20,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "npm pack --pack-destination tmp/",
-    "start": "node node_modules/node-red/red.js -v -u . -s node-red-default-settings.js",
+    "start": "node node_modules/node-red/red.js -v -u  ./debug",
     "debug": "node --nolazy node_modules/node-red/red.js -v -u ./debug"
   },
   "node-red": {
