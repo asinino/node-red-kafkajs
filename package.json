@@ -1,6 +1,6 @@
 {
   "name": "@asinino/node-red-kafkajs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A package to comunicate with a Kafka server and lets the user control the flow of message pipeline to control success and failure on message synchronization.",
   "homepage": "https://github.com/asinino/node-red-kafkajs#readme",
   "keywords": [
